@@ -83,6 +83,70 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="imageListModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="imageListHeading"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <h4>Manage Images</h4>
+                                    </div>
+                                    <form id="imageListForm" name="imageListForm" class="form-horizontal">
+                                        <input type="hidden" name="image_list_article_id" id="image_list_article_id">
+                                    </form>
+                                    <div class="col-md-12 text-right mb-5">
+                                        <a class="btn btn-success" href="javascript:void(0)" id="createNewImage">Upload New Image</a>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered image-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Preview</th>
+                                                    <th width="280px">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="imageDetailModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="imageDetailHeading"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="imageDetailForm" name="imageDetailForm" class="form-horizontal">
+                            <input type="hidden" name="image_detail_article_id" id="image_detail_article_id">
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2 control-label">Image</label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="image_url" name="image_url" value="" maxlength="50" required="">
+                                </div>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 
     <script type="text/javascript">
@@ -129,6 +193,44 @@
                 $('#articleForm').trigger("reset");
                 $('#modelHeading').html("Create New Article");
                 $('#ajaxModel').modal('show');
+            });
+
+            $('#createNewImage').click(function() {
+                var article_id = $('#image_list_article_id').val();
+                $('#image_detail_article_id').val(article_id);
+
+                $('#saveBtn').val("create-article");
+                $('#imageDetailForm').trigger("reset");
+                $('#imageDetailHeading').html("Upload New Images");
+                $('#imageDetailModal').modal('show');
+            });
+
+            $('body').on('click', '.imageArticle', function() {
+                var article_id = $(this).data('id');
+                $('#image_list_article_id').val(article_id);
+                $('#imageDetailHeading').html("Images List");
+
+                var table = $('.image-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('ajaxarticles.index') }}",
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex'
+                        },
+                        {
+                            data: 'title',
+                            name: 'title'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        },
+                    ]
+                });
+                $('#imageListModal').modal('show');
             });
 
             $('body').on('click', '.editArticle', function() {
