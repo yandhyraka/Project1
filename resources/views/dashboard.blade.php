@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <head>
-        <title>Admin</title>
+        <title>Home</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
 
