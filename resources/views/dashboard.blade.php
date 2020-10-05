@@ -13,7 +13,7 @@
 
     <div class="container" style="margin-bottom: -21%;">
         <div class="row">
-            <div class="col-sm">
+            <div class="col-sm" style="padding-right: 0;">
                 <div class="card bg-dark text-white" style="height: 50%;">
                     <img class="card-img" src="https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616__340.jpg" alt="Card image" style="height: 100%;">
                     <div class="card-img-overlay">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm">
+            <div class="col-sm" style="padding-left: 0;">
                 <div class="row" style="height: 25%;">
                     <div class="col-sm" style="height: 100%;">
                         <div class="card bg-dark text-white" style="height: 100%;">
