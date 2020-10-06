@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Image;
 use App\File;
 use DataTables;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class ArticleAjaxController extends Controller
 {
@@ -89,7 +90,7 @@ class ArticleAjaxController extends Controller
             $image = $request->file('file');
             $imageName = time() . '.' . $image->extension();
             $image->move(public_path('images'), $imageName);
-            return response()->json(['success'=>$imageName]);
+            return response()->json(['success' => $imageName]);
         } else if (isset($request->image_detail_article_id) && !empty($request->image_detail_article_id)) {
             Image::updateOrCreate(
                 ['id' => $request->article_id],
@@ -120,6 +121,25 @@ class ArticleAjaxController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
+    public function show($id)
+    {
+        $data = Article::where('id', $id)->with('Image')->get();
+        if ($data->toArray()!==null && !empty($data->toArray())) {
+            $to_return['header'] = url('/images/' . $data[0]->image[0]->url);
+            $to_return['date'] = date('d F Y H:i:s', strtotime($data[0]->published_at));
+            $to_return['title'] = $data[0]->title;
+            $to_return['content'] = $data[0]->content;
+
+            $to_return['carousel'] = array();
+            foreach ($data[0]->image as $image) {
+                $to_return['carousel'][] = url('/images/' . $image->url);
+            }
+            return view('Article', $to_return);
+        } else {
+            return abort(404);
+        }
+    }
+
     public function edit($id)
     {
         $article = Article::find($id);

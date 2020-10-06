@@ -43,8 +43,8 @@ class Article extends Model
      */
     protected $appends = [];
 
-    public function images()
+    public function image()
     {
-        return $this->hasMany('App\Models\Images');
+        return $this->hasMany('App\Models\Image');
     }
 }

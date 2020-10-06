@@ -16,15 +16,17 @@ use App\Http\Controllers\ImageAjaxController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-Route::middleware(['auth:sanctum', 'verified'])->get('/article', function () {
-    return view('article');
-})->name('article');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/article/{id}', function () {
+//     return view('article');
+// })->name('article');
+
+Route::get('article/{id}', [ArticleAjaxController::class, 'show']);
 
 Route::resource('admin',ArticleAjaxController::class);
 Route::resource('image',ImageAjaxController::class);
