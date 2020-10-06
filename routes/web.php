@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleAjaxController;
+use App\Http\Controllers\ImageAjaxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/article', function () {
     return view('article');
 })->name('article');
 
-Route::resource('ajaxarticles',ArticleAjaxController::class);
+Route::resource('admin',ArticleAjaxController::class);
+Route::resource('image',ImageAjaxController::class);

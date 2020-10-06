@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-sm" style="padding-right: 0;">
                 <div class="card bg-dark text-white" style="height: 50%;">
-                    <img class="card-img" src="https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616__340.jpg" alt="Card image" style="height: 100%;">
+                    <img class="card-img" src="{{url('/images/1601958732.jpeg')}}" alt="Card image" style="height: 100%;">
                     <div class="card-img-overlay">
                         <h5 class="card-title">Card title</h5>
                         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>

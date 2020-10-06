@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Image;
+use App\File;
 use DataTables;
 
 class ArticleAjaxController extends Controller
@@ -18,34 +20,34 @@ class ArticleAjaxController extends Controller
         if ($request->ajax()) {
             $data = Article::where('status_active', 1)->latest()->get();
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('status', function($row){
-                        if($row->published==1){
-                            $status = '<span class="badge badge-primary">Published at<br>'.date('Y-m-d H:i:s', strtotime($row->published_at)).'</span>';
-                        } else {
-                            $status = '<span class="badge badge-danger">UnPublished</span>';
-                        }
+                ->addIndexColumn()
+                ->addColumn('status', function ($row) {
+                    if ($row->published == 1) {
+                        $status = '<span class="badge badge-primary">Published at<br>' . date('Y-m-d H:i:s', strtotime($row->published_at)) . '</span>';
+                    } else {
+                        $status = '<span class="badge badge-danger">UnPublished</span>';
+                    }
 
-                        return $status;
-                    })
-                    ->addColumn('action', function($row){
-                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editArticle">Edit</a>';
-                           $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Image" class="image btn btn-primary btn-sm imageArticle">Image</a>';
-                           
-                           if($row->published==1){
-                            $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="UnPublish" class="btn btn-warning btn-sm unpublishArticle">UnPublish</a>';
-                           } else {
-                            $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Publish" class="btn btn-warning btn-sm publishArticle">Publish</a>';
-                           }
-                           
-                           $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteArticle">Delete</a>';
-                           
-                           return $btn;
-                    })
-                    ->rawColumns(['status','action'])
-                    ->make(true);
+                    return $status;
+                })
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editArticle">Edit</a>';
+                    $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Image" class="image btn btn-primary btn-sm imageArticle">Image</a>';
+
+                    if ($row->published == 1) {
+                        $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="UnPublish" class="btn btn-warning btn-sm unpublishArticle">UnPublish</a>';
+                    } else {
+                        $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Publish" class="btn btn-warning btn-sm publishArticle">Publish</a>';
+                    }
+
+                    $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteArticle">Delete</a>';
+
+                    return $btn;
+                })
+                ->rawColumns(['status', 'action'])
+                ->make(true);
         }
-      
+
         return view('Admin');
     }
 
@@ -57,42 +59,60 @@ class ArticleAjaxController extends Controller
      */
     public function store(Request $request)
     {
-        if (isset($request->delete)&&$request->delete){
-            Article::updateOrCreate(['id' => $request->article_id],
-                    [
-                        'status_active' => 0,
-                    ]
-                ); 
-            return response()->json(['success'=>'Article deleted successfully.']);
-        } else if (isset($request->publish)&&$request->publish){
-            Article::updateOrCreate(['id' => $request->article_id],
-                    [
-                        'published' => 1,
-                        'published_at' => date('Y-m-d H:i:s'),
-                    ]
-                ); 
-            return response()->json(['success'=>'Article deleted successfully.']);
-        } else if (isset($request->unpublish)&&$request->unpublish){
-            Article::updateOrCreate(['id' => $request->article_id],
-                    [
-                        'published' => 0,
-                        'published_at' => date('Y-m-d H:i:s'),
-                    ]
-                ); 
-            return response()->json(['success'=>'Article deleted successfully.']);
+        if (isset($request->delete) && $request->delete) {
+            Article::updateOrCreate(
+                ['id' => $request->article_id],
+                [
+                    'status_active' => 0,
+                ]
+            );
+            return response()->json(['success' => 'Article deleted successfully.']);
+        } else if (isset($request->publish) && $request->publish) {
+            Article::updateOrCreate(
+                ['id' => $request->article_id],
+                [
+                    'published' => 1,
+                    'published_at' => date('Y-m-d H:i:s'),
+                ]
+            );
+            return response()->json(['success' => 'Article deleted successfully.']);
+        } else if (isset($request->unpublish) && $request->unpublish) {
+            Article::updateOrCreate(
+                ['id' => $request->article_id],
+                [
+                    'published' => 0,
+                    'published_at' => date('Y-m-d H:i:s'),
+                ]
+            );
+            return response()->json(['success' => 'Article deleted successfully.']);
+        } else if ($request->file('file') !== null && !empty($request->file('file'))) {
+            $image = $request->file('file');
+            $imageName = time() . '.' . $image->extension();
+            $image->move(public_path('images'), $imageName);
+            return response()->json(['success'=>$imageName]);
+        } else if (isset($request->image_detail_article_id) && !empty($request->image_detail_article_id)) {
+            Image::updateOrCreate(
+                ['id' => $request->article_id],
+                [
+                    'article_id' => $request->image_detail_article_id,
+                    'url' => $request->image_url,
+                    'status_active' => 1,
+                ]
+            );
+            return response()->json(['success' => 'Image uploaded successfully.']);
         } else {
-            Article::updateOrCreate(['id' => $request->article_id],
-                    [
-                        'title' => $request->title, 
-                        'content' => $request->content,
-                        'published' => 0,
-                        'published_at' => date('Y-m-d H:i:s'),
-                        'status_active' => 1,
-                    ]
-                );     
-            return response()->json(['success'=>'Article saved successfully.']);   
+            Article::updateOrCreate(
+                ['id' => $request->article_id],
+                [
+                    'title' => $request->title,
+                    'content' => $request->content,
+                    'published' => 0,
+                    'published_at' => date('Y-m-d H:i:s'),
+                    'status_active' => 1,
+                ]
+            );
+            return response()->json(['success' => 'Article saved successfully.']);
         }
-
     }
     /**
      * Show the form for editing the specified resource.
@@ -115,6 +135,6 @@ class ArticleAjaxController extends Controller
     public function destroy($id)
     {
         Article::find($id)->delete();
-        return response()->json(['success'=>'Article deleted successfully.']);
+        return response()->json(['success' => 'Article deleted successfully.']);
     }
 }

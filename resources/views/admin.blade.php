@@ -22,6 +22,7 @@
     </style>
 
     <body>
+        <!------------------------------------- ARTICLE ------------------------------------->
         <div class="container">
             <div class="row">
                 <div class="col-md-8 offset-md-2">
@@ -83,7 +84,9 @@
                 </div>
             </div>
         </div>
+        <!------------------------------------- ARTICLE ------------------------------------->
 
+        <!-------------------------------------- IMAGES ------------------------------------->
         <div class="modal fade" id="imageListModal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -131,26 +134,73 @@
                         <h4 class="modal-title" id="imageDetailHeading"></h4>
                     </div>
                     <div class="modal-body">
+                        <form action="{{ route('admin.store') }}" method="post" enctype="multipart/form-data" id="image-upload" class="dropzone">
+                            @csrf
+                            <div>
+                            </div>
+                        </form>
                         <form id="imageDetailForm" name="imageDetailForm" class="form-horizontal">
                             <input type="hidden" name="image_detail_article_id" id="image_detail_article_id">
-                            <div class="form-group">
-                                <label for="name" class="col-sm-2 control-label">Image</label>
-                                <div class="col-sm-12">
-                                    <input type="file" class="form-control" id="image_url" name="image_url" value="" maxlength="50" required="">
-                                </div>
-                            </div>
+                            <input type="hidden" name="image_url" id="image_url">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes</button>
+                                <button type="submit" class="btn btn-primary" id="uploadBtn" value="create">Upload</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <!-------------------------------------- IMAGES ------------------------------------->
     </body>
 
     <script type="text/javascript">
         $(function() {
+            Dropzone.options.imageUpload = {
+                maxFilesize: 1,
+                acceptedFiles: ".jpeg,.jpg,.png,.gif",
+                init: function() {
+                    var known = false;
+                    this.on("success", function(file, responseText) {
+                        $('#image_url').val(responseText.success);
+                    });
+                    this.on('error', function() {
+                        // aler stuff
+                    });
+                    this.on("addedfile", function() {
+                        if (this.files[10] != null) {
+                            this.removeFile(this.files[0]);
+                            if (known === false) {
+                                alert('Max. 10 Uploads!')
+                                known = true;
+                            }
+                        }
+                    });
+                }
+            };
+
+            // new Dropzone("#drop-zone", {
+            //     maxFilesize: 3, // MB
+            //     maxFiles: 10,
+            //     dictDefaultMessage: "Upload Excel.",
+            //     init: function() {
+            //         var known = false;
+            //         this.on("success", function(file, responseText) {
+            //             // do stuff
+            //         });
+            //         this.on('error', function() {
+            //             // aler stuff
+            //         });
+            //         this.on("addedfile", function() {
+            //             if (this.files[10] != null) {
+            //                 this.removeFile(this.files[0]);
+            //                 if (known === false) {
+            //                     alert('Max. 10 Uploads!')
+            //                     known = true;
+            //                 }
+            //             }
+            //         });
+            //     }
+            // });
 
             $.ajaxSetup({
                 headers: {
@@ -158,10 +208,11 @@
                 }
             });
 
+            //ARTICLE////////////////////////////////////////////////////////////////////////
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('ajaxarticles.index') }}",
+                ajax: "{{ route('admin.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -195,63 +246,13 @@
                 $('#ajaxModel').modal('show');
             });
 
-            $('#createNewImage').click(function() {
-                var article_id = $('#image_list_article_id').val();
-                $('#image_detail_article_id').val(article_id);
-
-                $('#saveBtn').val("create-article");
-                $('#imageDetailForm').trigger("reset");
-                $('#imageDetailHeading').html("Upload New Images");
-                $('#imageDetailModal').modal('show');
-            });
-
-            $('body').on('click', '.imageArticle', function() {
-                var article_id = $(this).data('id');
-                $('#image_list_article_id').val(article_id);
-                $('#imageDetailHeading').html("Images List");
-
-                var table = $('.image-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ route('ajaxarticles.index') }}",
-                    columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex'
-                        },
-                        {
-                            data: 'title',
-                            name: 'title'
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
-                        },
-                    ]
-                });
-                $('#imageListModal').modal('show');
-            });
-
-            $('body').on('click', '.editArticle', function() {
-                var article_id = $(this).data('id');
-                $.get("{{ route('ajaxarticles.index') }}" + '/' + article_id + '/edit', function(data) {
-                    $('#modelHeading').html("Edit Article");
-                    $('#saveBtn').val("edit-user");
-                    $('#ajaxModel').modal('show');
-                    $('#article_id').val(data.id);
-                    $('#title').val(data.title);
-                    $('#content').val(data.content);
-                })
-            });
-
             $('#saveBtn').click(function(e) {
                 e.preventDefault();
                 $(this).html('Sending..');
 
                 $.ajax({
                     data: $('#articleForm').serialize(),
-                    url: "{{ route('ajaxarticles.store') }}",
+                    url: "{{ route('admin.store') }}",
                     type: "POST",
                     dataType: 'json',
                     success: function(data) {
@@ -267,6 +268,18 @@
                 });
             });
 
+            $('body').on('click', '.editArticle', function() {
+                var article_id = $(this).data('id');
+                $.get("{{ route('admin.index') }}" + '/' + article_id + '/edit', function(data) {
+                    $('#modelHeading').html("Edit Article");
+                    $('#saveBtn').val("edit-user");
+                    $('#ajaxModel').modal('show');
+                    $('#article_id').val(data.id);
+                    $('#title').val(data.title);
+                    $('#content').val(data.content);
+                })
+            });
+
             $('body').on('click', '.deleteArticle', function() {
                 var article_id = $(this).data("id");
                 var result = confirm("Are You sure want to delete !");
@@ -276,7 +289,7 @@
                             article_id: article_id,
                             delete: true
                         },
-                        url: "{{ route('ajaxarticles.store') }}",
+                        url: "{{ route('admin.store') }}",
                         type: "POST",
                         dataType: 'json',
                         success: function(data) {
@@ -300,7 +313,7 @@
                             article_id: article_id,
                             publish: true
                         },
-                        url: "{{ route('ajaxarticles.store') }}",
+                        url: "{{ route('admin.store') }}",
                         type: "POST",
                         dataType: 'json',
                         success: function(data) {
@@ -324,7 +337,7 @@
                             article_id: article_id,
                             unpublish: true
                         },
-                        url: "{{ route('ajaxarticles.store') }}",
+                        url: "{{ route('admin.store') }}",
                         type: "POST",
                         dataType: 'json',
                         success: function(data) {
@@ -338,6 +351,79 @@
                     return false;
                 }
             });
+            //ARTICLE////////////////////////////////////////////////////////////////////////
+
+            //IMAGES/////////////////////////////////////////////////////////////////////////
+            $('#createNewImage').click(function() {
+                var article_id = $('#image_list_article_id').val();
+                $('#image_detail_article_id').val(article_id);
+
+                $('#saveBtn').val("create-article");
+                $('#imageDetailForm').trigger("reset");
+                $('#imageDetailHeading').html("Upload New Images");
+                $('#imageDetailModal').modal('show');
+            });
+
+            $('#uploadBtn').click(function(e) {
+                e.preventDefault();
+                $(this).html('Uploading..');
+
+                $.ajax({
+                    data: $('#imageDetailForm').serialize(),
+                    url: "{{ route('admin.store') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#imageDetailForm').trigger("reset");
+                        $('#imageDetailModal').modal('hide');
+                        $('#uploadBtn').html('Save Changes');
+                        imageTable.draw();
+                    },
+                    error: function(data) {
+                        console.log('Error:', data);
+                        $('#uploadBtn').html('Save Changes');
+                    }
+                });
+            });
+
+            $('#imageDetailModal').on('hidden.bs.modal', function() {
+                imageTable.destroy();
+            })
+
+            $('body').on('click', '.imageArticle', function() {
+                var article_id = $(this).data('id');
+                $('#image_list_article_id').val(article_id);
+                $('#imageDetailHeading').html("Images List");
+
+                var imageTable = $('.image-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    destroy: true,
+                    ajax: {
+                        url: "{{ route('image.index') }}",
+                        data: function(data) {
+                            data.article_id = article_id;
+                        }
+                    },
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex'
+                        },
+                        {
+                            data: 'images',
+                            name: 'images'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        },
+                    ]
+                });
+                $('#imageListModal').modal('show');
+            });
+            //IMAGES/////////////////////////////////////////////////////////////////////////
         });
     </script>
 </x-app-layout>
