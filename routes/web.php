@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleAjaxController;
 use App\Http\Controllers\ImageAjaxController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +20,13 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Route::get('/dashboard', [DashboardController::class, 'index']);
 // Route::middleware(['auth:sanctum', 'verified'])->get('/article/{id}', function () {
 //     return view('article');
 // })->name('article');
 
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('dashboard/{id}', [DashboardController::class, 'show']);
 Route::get('article/{id}', [ArticleAjaxController::class, 'show']);
 
 Route::resource('admin',ArticleAjaxController::class);

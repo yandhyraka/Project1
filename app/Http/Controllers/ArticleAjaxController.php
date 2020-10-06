@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Image;
-use App\File;
 use DataTables;
 use Symfony\Component\VarDumper\Cloner\Data;
 

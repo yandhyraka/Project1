@@ -15,11 +15,11 @@
         <div class="row">
             <div class="col-sm" style="padding-right: 0;">
                 <div class="card bg-dark text-white" style="height: 50%;">
-                    <img class="card-img" src="{{url('/images/1601958732.jpeg')}}" alt="Card image" style="height: 100%;">
+                    <img class="card-img" src="{{ $header[0]['image'] }}" alt="Card image" style="height: 100%;">
                     <div class="card-img-overlay">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">Last updated 3 mins ago</p>
+                        <h5 class="card-title">{{ $header[0]['title'] }}</h5>
+                        <p class="card-text">{{ $header[0]['content'] }}</p>
+                        <p class="card-text">{{ $header[0]['date'] }}</p>
                     </div>
                 </div>
             </div>
@@ -27,11 +27,11 @@
                 <div class="row" style="height: 25%;">
                     <div class="col-sm" style="height: 100%;">
                         <div class="card bg-dark text-white" style="height: 100%;">
-                            <img class="card-img" src="https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616__340.jpg" alt="Card image" style="height: 100%;">
+                            <img class="card-img" src="{{ $header[1]['image'] }}" alt="Card image" style="height: 100%;">
                             <div class="card-img-overlay">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text">Last updated 3 mins ago</p>
+                                <h5 class="card-title">{{ $header[1]['title'] }}</h5>
+                                <p class="card-text">{{ $header[1]['content'] }}</p>
+                                <p class="card-text">{{ $header[1]['date'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -39,11 +39,11 @@
                 <div class="row" style="height: 25%;">
                     <div class="col-sm" style="height: 100%;">
                         <div class="card bg-dark text-white" style="height: 100%;">
-                            <img class="card-img" src="https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616__340.jpg" alt="Card image" style="height: 100%;">
+                            <img class="card-img" src="{{ $header[2]['image'] }}" alt="Card image" style="height: 100%;">
                             <div class="card-img-overlay">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text">Last updated 3 mins ago</p>
+                                <h5 class="card-title">{{ $header[2]['title'] }}</h5>
+                                <p class="card-text">{{ $header[2]['content'] }}</p>
+                                <p class="card-text">{{ $header[2]['date'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -53,42 +53,33 @@
     </div>
 
     <div class="container">
-        <div class="row">
+        @for ($i = 0; $i < sizeof($article); $i++) { @if($i==0 || $i==3 || $i==6) <div class="row"> @endif
             <div class="col-sm">
                 <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616__340.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="{{ $article[$i]['image'] }}" alt="Card image cap">
                     <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <h5 class="card-title">{{ $article[$i]['title'] }}</h5>
+                        <p class="card-text">{{ $article[$i]['content'] }}</p>
+                        <p class="card-text">{{ $article[$i]['date'] }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-sm">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616__340.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616__340.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+            @if($i==2 || $i==5 || $i==9) </div> @endif
+    @endfor
     </div>
 
     <div class="container">
         <nav aria-label="Page navigation example">
             <ul class="pagination" style="margin: 1% 38.7%;">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                @if (isset($previous) && !empty($previous))
+                <li class="page-item"><a class="page-link" href="{{ $previous }}">Previous</a></li>
+                @endif
+                @foreach ($pagination as $pagination)
+                <li class="page-item"><a class="page-link" href="{{ $pagination['url'] }}">{{ $pagination['number'] }}</a></li>
+                @endforeach
+                @if (isset($next) && !empty($next))
+                <li class="page-item"><a class="page-link" href="{{ $next }}">Next</a></li>
+                @endif
             </ul>
         </nav>
     </div>
