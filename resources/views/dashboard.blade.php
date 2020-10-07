@@ -70,15 +70,15 @@
 
     <div class="container">
         <nav aria-label="Page navigation example">
-            <ul class="pagination" style="margin: 1% 38.7%;">
+            <ul class="pagination" style="margin: 1% auto;">
                 @if (isset($previous) && !empty($previous))
-                <li class="page-item"><a class="page-link" href="{{ $previous }}">Previous</a></li>
+                <li class="page-item" style="margin: auto;"><a class="page-link" href="{{ $previous }}">Previous</a></li>
                 @endif
                 @foreach ($pagination as $pagination)
-                <li class="page-item"><a class="page-link" href="{{ $pagination['url'] }}">{{ $pagination['number'] }}</a></li>
+                <li class="page-item" style="margin: auto;"><a class="page-link" href="{{ $pagination['url'] }}">{{ $pagination['number'] }}</a></li>
                 @endforeach
                 @if (isset($next) && !empty($next))
-                <li class="page-item"><a class="page-link" href="{{ $next }}">Next</a></li>
+                <li class="page-item" style="margin: auto;"><a class="page-link" href="{{ $next }}">Next</a></li>
                 @endif
             </ul>
         </nav>

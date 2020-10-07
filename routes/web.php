@@ -16,9 +16,7 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-});
+Route::get('/', [DashboardController::class, 'index']);
 
 // Route::get('/dashboard', [DashboardController::class, 'index']);
 // Route::middleware(['auth:sanctum', 'verified'])->get('/article/{id}', function () {
@@ -26,6 +24,7 @@ Route::get('/', function () {
 // })->name('article');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('admins', [ArticleAjaxController::class, 'index'])->name('admins');
 Route::get('dashboard/{id}', [DashboardController::class, 'show']);
 Route::get('article/{id}', [ArticleAjaxController::class, 'show']);
 

@@ -11,6 +11,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        // die(var_dump($request->session()->all()));
         $to_return['header'] = array();
         $data_top = Article::with('Image')->orderBy('published_at')->offset(0)->limit(3)->get();
         if ($data_top->toArray() !== null && !empty($data_top->toArray())) {
