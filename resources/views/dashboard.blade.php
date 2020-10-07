@@ -16,8 +16,8 @@
             <div class="col-sm" style="padding-right: 0;">
                 <div class="card bg-dark text-white">
                     <img class="card-img fit" src="{{ $header[0]['image'] }}" alt="Card image" style="height: 40em;">
-                    <div class="card-img-overlay">
-                        <h5 class="card-title">{{ $header[0]['title'] }}</h5>
+                    <div class="down">
+                        <h2 class="card-title yellowed-font">{{ $header[0]['title'] }}</h2>
                         <p class="card-text">{{ $header[0]['content'] }}</p>
                         <p class="card-text">{{ $header[0]['date'] }}</p>
                     </div>
@@ -28,8 +28,8 @@
                     <div class="col-sm">
                         <div class="card bg-dark text-white" style="height: 100%;">
                             <img class="card-img fit" src="{{ $header[1]['image'] }}" alt="Card image" style="height: 20em;">
-                            <div class="card-img-overlay">
-                                <h5 class="card-title">{{ $header[1]['title'] }}</h5>
+                            <div class="down">
+                                <h2 class="card-title yellowed-font">{{ $header[1]['title'] }}</h2>
                                 <p class="card-text">{{ $header[1]['content'] }}</p>
                                 <p class="card-text">{{ $header[1]['date'] }}</p>
                             </div>
@@ -40,8 +40,8 @@
                     <div class="col-sm">
                         <div class="card bg-dark text-white">
                             <img class="card-img fit" src="{{ $header[2]['image'] }}" alt="Card image" style="height: 20em;">
-                            <div class="card-img-overlay">
-                                <h5 class="card-title">{{ $header[2]['title'] }}</h5>
+                            <div class="down">
+                                <h2 class="card-title yellowed-font">{{ $header[2]['title'] }}</h2>
                                 <p class="card-text">{{ $header[2]['content'] }}</p>
                                 <p class="card-text">{{ $header[2]['date'] }}</p>
                             </div>
@@ -68,7 +68,7 @@
     @endfor
     </div>
 
-    <div class="container" style="margin: 1%;">
+    <div class="container" style="margin-top: 1%; margin-bottom: 1%; ">
         <nav aria-label="Page navigation example">
             <ul class="pagination" style="margin: 0 auto;">
                 @if (isset($previous) && !empty($previous))

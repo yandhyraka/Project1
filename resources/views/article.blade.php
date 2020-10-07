@@ -12,7 +12,7 @@
     </x-slot>
 
     <div class="container">
-        <img class="card-img" src="{{ $header }}" alt="Card image">
+        <img class="card-img fit" src="{{ $header }}" alt="Card image" style="height: 50em;">
     </div>
 
     <div class="container" style="margin-top: 1%;">
