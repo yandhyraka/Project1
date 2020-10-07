@@ -11,16 +11,20 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // die(var_dump($request->session()->all()));
         $to_return['header'] = array();
-        $data_top = Article::with('Image')->orderBy('published_at')->offset(0)->limit(3)->get();
+        $data_top = Article::where('published', 1)->with('Image')->orderBy('published_at')->offset(0)->limit(3)->get();
         if ($data_top->toArray() !== null && !empty($data_top->toArray())) {
             foreach ($data_top as $data_top) {
                 $temp = array();
-                $temp['image'] = url('/images/' . $data_top->image[0]->url);
                 $temp['date'] = date('d F Y H:i:s', strtotime($data_top->published_at));
                 $temp['title'] = $data_top->title;
                 $temp['content'] = substr($data_top->content, 0, 100) . '...';
+
+                if (isset($data_top->image[0]->url) && !empty($data_top->image[0]->url)) {
+                    $temp['image'] = url('/images/' . $data_top->image[0]->url);
+                } else {
+                    $temp['image'] = url('/images/no-image.png');
+                }
 
                 $to_return['header'][] = $temp;
             }
@@ -36,17 +40,32 @@ class DashboardController extends Controller
                     $to_return['header'][] = $temp;
                 }
             }
+        } else {
+            for ($i = 0; $i < 3; $i++) {
+                $temp = array();
+                $temp['image'] = url('/images/no-image.png');
+                $temp['date'] = '';
+                $temp['title'] = '';
+                $temp['content'] = '';
+
+                $to_return['header'][] = $temp;
+            }
         }
 
         $to_return['article'] = array();
-        $data_card = Article::with('Image')->orderBy('published_at')->offset(3)->limit(9)->get();
+        $data_card = Article::where('published', 1)->with('Image')->orderBy('published_at')->offset(3)->limit(9)->get();
         if ($data_card->toArray() !== null && !empty($data_card->toArray())) {
             foreach ($data_card as $data_card) {
                 $temp = array();
-                $temp['image'] = url('/images/' . $data_card->image[0]->url);
                 $temp['date'] = date('d F Y H:i:s', strtotime($data_card->published_at));
                 $temp['title'] = $data_card->title;
                 $temp['content'] = substr($data_card->content, 0, 100) . '...';
+
+                if (isset($data_card->image[0]->url) && !empty($data_card->image[0]->url)) {
+                    $temp['image'] = url('/images/' . $data_card->image[0]->url);
+                } else {
+                    $temp['image'] = url('/images/no-image.png');
+                }
 
                 $to_return['article'][] = $temp;
             }
@@ -75,14 +94,19 @@ class DashboardController extends Controller
     public function show($id)
     {
         $to_return['header'] = array();
-        $data_top = Article::with('Image')->orderBy('published_at')->offset(0)->limit(3)->get();
+        $data_top = Article::where('published', 1)->with('Image')->orderBy('published_at')->offset(0)->limit(3)->get();
         if ($data_top->toArray() !== null && !empty($data_top->toArray())) {
             foreach ($data_top as $data_top) {
                 $temp = array();
-                $temp['image'] = url('/images/' . $data_top->image[0]->url);
                 $temp['date'] = date('d F Y H:i:s', strtotime($data_top->published_at));
                 $temp['title'] = $data_top->title;
                 $temp['content'] = substr($data_top->content, 0, 100) . '...';
+
+                if (isset($data_top->image[0]->url) && !empty($data_top->image[0]->url)) {
+                    $temp['image'] = url('/images/' . $data_top->image[0]->url);
+                } else {
+                    $temp['image'] = url('/images/no-image.png');
+                }
 
                 $to_return['header'][] = $temp;
             }
@@ -98,17 +122,32 @@ class DashboardController extends Controller
                     $to_return['header'][] = $temp;
                 }
             }
+        } else {
+            for ($i = 0; $i < 3; $i++) {
+                $temp = array();
+                $temp['image'] = url('/images/no-image.png');
+                $temp['date'] = '';
+                $temp['title'] = '';
+                $temp['content'] = '';
+
+                $to_return['header'][] = $temp;
+            }
         }
 
         $to_return['article'] = array();
-        $data_card = Article::with('Image')->orderBy('published_at')->offset(3 + (9 * ($id - 1)))->limit(9)->get();
+        $data_card = Article::where('published', 1)->with('Image')->orderBy('published_at')->offset(3 + (9 * ($id - 1)))->limit(9)->get();
         if ($data_card->toArray() !== null && !empty($data_card->toArray())) {
             foreach ($data_card as $data_card) {
                 $temp = array();
-                $temp['image'] = url('/images/' . $data_card->image[0]->url);
                 $temp['date'] = date('d F Y H:i:s', strtotime($data_card->published_at));
                 $temp['title'] = $data_card->title;
                 $temp['content'] = substr($data_card->content, 0, 100) . '...';
+
+                if (isset($data_card->image[0]->url) && !empty($data_card->image[0]->url)) {
+                    $temp['image'] = url('/images/' . $data_card->image[0]->url);
+                } else {
+                    $temp['image'] = url('/images/no-image.png');
+                }
 
                 $to_return['article'][] = $temp;
             }

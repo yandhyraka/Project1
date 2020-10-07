@@ -21,6 +21,11 @@ class ArticleAjaxController extends Controller
             $data = Article::where('status_active', 1)->latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('content_mini', function ($row) {
+                    $content = substr($row->content, 0, 100) . '...';
+
+                    return $content;
+                })
                 ->addColumn('status', function ($row) {
                     if ($row->published == 1) {
                         $status = '<span class="badge badge-primary">Published at<br>' . date('Y-m-d H:i:s', strtotime($row->published_at)) . '</span>';
@@ -32,7 +37,7 @@ class ArticleAjaxController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editArticle">Edit</a>';
-                    $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Image" class="image btn btn-primary btn-sm imageArticle">Image</a>';
+                    $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Image" class="image btn btn-success btn-sm imageArticle">Image</a>';
 
                     if ($row->published == 1) {
                         $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="UnPublish" class="btn btn-warning btn-sm unpublishArticle">UnPublish</a>';

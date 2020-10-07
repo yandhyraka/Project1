@@ -54,7 +54,7 @@
         </div>
 
         <div class="modal fade" id="ajaxModel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="modelHeading"></h4>
@@ -178,30 +178,6 @@
                 }
             };
 
-            // new Dropzone("#drop-zone", {
-            //     maxFilesize: 3, // MB
-            //     maxFiles: 10,
-            //     dictDefaultMessage: "Upload Excel.",
-            //     init: function() {
-            //         var known = false;
-            //         this.on("success", function(file, responseText) {
-            //             // do stuff
-            //         });
-            //         this.on('error', function() {
-            //             // aler stuff
-            //         });
-            //         this.on("addedfile", function() {
-            //             if (this.files[10] != null) {
-            //                 this.removeFile(this.files[0]);
-            //                 if (known === false) {
-            //                     alert('Max. 10 Uploads!')
-            //                     known = true;
-            //                 }
-            //             }
-            //         });
-            //     }
-            // });
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -210,6 +186,7 @@
 
             //ARTICLE////////////////////////////////////////////////////////////////////////
             var table = $('.data-table').DataTable({
+                responsive: true,
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('admin.index') }}",
@@ -222,8 +199,8 @@
                         name: 'title'
                     },
                     {
-                        data: 'content',
-                        name: 'content'
+                        data: 'content_mini',
+                        name: 'content_mini'
                     },
                     {
                         data: 'status',
@@ -396,6 +373,7 @@
                 $('#imageDetailHeading').html("Images List");
 
                 var imageTable = $('.image-table').DataTable({
+                    responsive: true,
                     processing: true,
                     serverSide: true,
                     destroy: true,
