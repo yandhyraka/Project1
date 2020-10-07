@@ -11,11 +11,11 @@
         </h2>
     </x-slot>
 
-    <div class="container" style="margin-bottom: -21%;">
+    <div class="container">
         <div class="row">
             <div class="col-sm" style="padding-right: 0;">
-                <div class="card bg-dark text-white" style="height: 50%;">
-                    <img class="card-img" src="{{ $header[0]['image'] }}" alt="Card image" style="height: 100%;">
+                <div class="card bg-dark text-white">
+                    <img class="card-img fit" src="{{ $header[0]['image'] }}" alt="Card image" style="height: 40em;">
                     <div class="card-img-overlay">
                         <h5 class="card-title">{{ $header[0]['title'] }}</h5>
                         <p class="card-text">{{ $header[0]['content'] }}</p>
@@ -24,10 +24,10 @@
                 </div>
             </div>
             <div class="col-sm" style="padding-left: 0;">
-                <div class="row" style="height: 25%;">
-                    <div class="col-sm" style="height: 100%;">
+                <div class="row">
+                    <div class="col-sm">
                         <div class="card bg-dark text-white" style="height: 100%;">
-                            <img class="card-img" src="{{ $header[1]['image'] }}" alt="Card image" style="height: 100%;">
+                            <img class="card-img fit" src="{{ $header[1]['image'] }}" alt="Card image" style="height: 20em;">
                             <div class="card-img-overlay">
                                 <h5 class="card-title">{{ $header[1]['title'] }}</h5>
                                 <p class="card-text">{{ $header[1]['content'] }}</p>
@@ -36,10 +36,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="height: 25%;">
-                    <div class="col-sm" style="height: 100%;">
-                        <div class="card bg-dark text-white" style="height: 100%;">
-                            <img class="card-img" src="{{ $header[2]['image'] }}" alt="Card image" style="height: 100%;">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="card bg-dark text-white">
+                            <img class="card-img fit" src="{{ $header[2]['image'] }}" alt="Card image" style="height: 20em;">
                             <div class="card-img-overlay">
                                 <h5 class="card-title">{{ $header[2]['title'] }}</h5>
                                 <p class="card-text">{{ $header[2]['content'] }}</p>
@@ -68,17 +68,17 @@
     @endfor
     </div>
 
-    <div class="container">
+    <div class="container" style="margin: 1%;">
         <nav aria-label="Page navigation example">
-            <ul class="pagination" style="margin: 1% auto;">
+            <ul class="pagination" style="margin: 0 auto;">
                 @if (isset($previous) && !empty($previous))
-                <li class="page-item" style="margin: auto;"><a class="page-link" href="{{ $previous }}">Previous</a></li>
+                <li class="page-item yellowed" style="margin: auto;"><a class="page-link yellowed" href="{{ $previous }}">Previous</a></li>
                 @endif
                 @foreach ($pagination as $pagination)
-                <li class="page-item" style="margin: auto;"><a class="page-link" href="{{ $pagination['url'] }}">{{ $pagination['number'] }}</a></li>
+                <li class="page-item yellowed" style="margin: auto;"><a class="page-link yellowed" href="{{ $pagination['url'] }}">{{ $pagination['number'] }}</a></li>
                 @endforeach
                 @if (isset($next) && !empty($next))
-                <li class="page-item" style="margin: auto;"><a class="page-link" href="{{ $next }}">Next</a></li>
+                <li class="page-item yellowed" style="margin: auto;"><a class="page-link yellowed" href="{{ $next }}">Next</a></li>
                 @endif
             </ul>
         </nav>

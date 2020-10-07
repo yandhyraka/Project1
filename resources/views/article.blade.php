@@ -18,12 +18,12 @@
     <div class="container" style="margin-top: 1%;">
         <div class="row">
             <div class="col-md-4">
-                <a id="backarrow" href="javascript:void(0)" style="float: right; margin-top: 2%;"><i class="material-icons">arrow_back</i></a>
+                <a id="backarrow" class="whited" href="javascript:void(0)" style="float: right; margin-top: 2%;"><i class="material-icons">arrow_back</i></a>
             </div>
             <div class="col-md-8">
-                <p>{{ $date }}</p>
-                <h2>{{ $title }}</h2>
-                <p style="text-align: justify;">{{ $content }}</p>
+                <p class="whited">{{ $date }}</p>
+                <h2 class="whited">{{ $title }}</h2>
+                <p class="whited" style="text-align: justify;">{{ $content }}</p>
                 <div class="container">
                     <div class="owl-carousel" id="carousel">
                         @foreach ($carousel as $carousel_data)
@@ -34,10 +34,10 @@
                     </div>
                 </div>
                 <div class="container" style="padding: 0;">
-                    <p>Share:</p>
-                    <a href=""><i class="material-icons">arrow_back</i></a>
-                    <a href=""><i class="material-icons">arrow_back</i></a>
-                    <a href=""><i class="material-icons">arrow_back</i></a>
+                    <p class="whited">Share:</p>
+                    <a href="" class="whited"><i class="material-icons">arrow_back</i></a>
+                    <a href="" class="whited"><i class="material-icons">arrow_back</i></a>
+                    <a href="" class="whited"><i class="material-icons">arrow_back</i></a>
                 </div>
             </div>
         </div>

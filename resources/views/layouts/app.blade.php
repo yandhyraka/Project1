@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.green.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" type="text/css">
 
     @livewireStyles
 
@@ -36,7 +36,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen blacked">
         @livewire('navigation-dropdown')
 
         <!-- Page Heading -->
@@ -50,16 +50,17 @@
         <main>
             {{ $slot }}
         </main>
+        
+    <div class="yellowed" style="padding: 0 1%;">
+        <a href="" style="margin: 0 1%;">About us</a>
+        <a href="" style="margin: 0 1%;">Contact us</a>
     </div>
-
+    </div>
     @stack('modals')
 
     @livewireScripts
 
-    <div style="padding: 0 1%;">
-        <a href="" style="margin: 0 1%;">About us</a>
-        <a href="" style="margin: 0 1%;">Contact us</a>
-    </div>
+    
 </body>
 
 </html>
