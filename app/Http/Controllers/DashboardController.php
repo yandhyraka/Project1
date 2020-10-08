@@ -71,6 +71,20 @@ class DashboardController extends Controller
             }
         }
 
+        if (sizeof($to_return['article']) < 3) {
+            for ($i = 0; $i <= (3 - sizeof($to_return['article'])); $i++) {
+                $temp = array();
+                $temp['no_article'] = true;
+                $to_return['article'][] = $temp;
+            }
+        } else if (sizeof($to_return['article']) % 3 != 0) {
+            for ($i = 0; $i <= (3 - (sizeof($to_return['article']) % 3)); $i++) {
+                $temp = array();
+                $temp['no_article'] = true;
+                $to_return['article'][] = $temp;
+            }
+        }
+
         $to_return['pagination'] = array();
         $total_page = 1;
         $data_nav = Article::orderBy('published_at')->offset(3)->limit(45)->get();
@@ -81,12 +95,12 @@ class DashboardController extends Controller
         for ($i = 0; $i < $total_page; $i++) {
             $temp = array();
             $temp['number'] = $i + 1;
-            $temp['url'] = route('dashboard', ($i + 1));
+            $temp['url'] = route('dashboards', ($i + 1));
             $to_return['pagination'][] = $temp;
         }
 
         if ($total_page > 1) {
-            $to_return['next'] = route('dashboard', 2);
+            $to_return['next'] = route('dashboards', 2);
         }
         return view('Dashboard', $to_return);
     }
@@ -136,6 +150,7 @@ class DashboardController extends Controller
 
         $to_return['article'] = array();
         $data_card = Article::where('published', 1)->with('Image')->orderBy('published_at')->offset(3 + (9 * ($id - 1)))->limit(9)->get();
+        
         if ($data_card->toArray() !== null && !empty($data_card->toArray())) {
             foreach ($data_card as $data_card) {
                 $temp = array();
@@ -153,27 +168,41 @@ class DashboardController extends Controller
             }
         }
 
+        if (sizeof($to_return['article']) < 3) {
+            for ($i = 0; $i <= (3 - sizeof($to_return['article'])); $i++) {
+                $temp = array();
+                $temp['no_article'] = true;
+                $to_return['article'][] = $temp;
+            }
+        } else if (sizeof($to_return['article']) % 3 != 0) {
+            for ($i = 0; $i <= (3 - (sizeof($to_return['article']) % 3)); $i++) {
+                $temp = array();
+                $temp['no_article'] = true;
+                $to_return['article'][] = $temp;
+            }
+        }
+
         $to_return['pagination'] = array();
         if ($id > 2) {
             $temp = array();
             $temp['number'] = $id - 2;
-            $temp['url'] = route('dashboard', ($id - 2));
+            $temp['url'] = route('dashboards', ($id - 2));
             $to_return['pagination'][] = $temp;
 
             $temp = array();
             $temp['number'] = $id - 1;
-            $temp['url'] = route('dashboard', ($id - 1));
+            $temp['url'] = route('dashboards', ($id - 1));
             $to_return['pagination'][] = $temp;
         } else if ($id > 1) {
             $temp = array();
             $temp['number'] = $id - 1;
-            $temp['url'] = route('dashboard', ($id - 1));
+            $temp['url'] = route('dashboards', ($id - 1));
             $to_return['pagination'][] = $temp;
         }
 
         $temp = array();
         $temp['number'] = $id;
-        $temp['url'] = route('dashboard',  $id);
+        $temp['url'] = route('dashboards',  $id);
         $to_return['pagination'][] = $temp;
 
         $total_page = 0;
@@ -183,22 +212,22 @@ class DashboardController extends Controller
         }
 
         for ($i = 0; $i < $total_page; $i++) {
-            if (($id > 1 && $i == 2)($id > 2 && $i == 1)) {
+            if (($id > 1 && $i == 2)||($id > 2 && $i == 1)) {
                 break;
             }
 
             $temp = array();
             $temp['number'] = $id + 1;
-            $temp['url'] = route('dashboard', ($id + 1));
+            $temp['url'] = route('dashboards', ($id + 1));
             $to_return['pagination'][] = $temp;
         }
 
         if ($id != 1) {
-            $to_return['previous'] = route('dashboard', ($id - 1));
+            $to_return['previous'] = route('dashboards', ($id - 1));
         }
 
         if ($total_page != 0) {
-            $to_return['previous'] = route('dashboard', ($id + 1));
+            $to_return['next'] = route('dashboards', ($id + 1));
         }
 
         return view('Dashboard', $to_return);

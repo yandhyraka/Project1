@@ -27,14 +27,11 @@
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <div class="row">
-                        <div class="col-md-12 text-center">
-                            <h4>Manage Article</h4>
-                        </div>
                         <div class="col-md-12 text-right mb-5">
                             <a class="btn btn-success" href="javascript:void(0)" id="createNewArticle"> Create New Article</a>
                         </div>
                         <div class="col-md-12">
-                            <table class="table table-bordered data-table">
+                            <table class="table table-bordered data-table" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -72,7 +69,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Contents</label>
                                 <div class="col-sm-12">
-                                    <textarea id="content" name="content" required="" placeholder="Enter Contents" class="form-control"></textarea>
+                                    <textarea id="content" name="content" required="" placeholder="Enter Contents" class="form-control" rows="10"></textarea>
                                 </div>
                             </div>
 
@@ -97,9 +94,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h4>Manage Images</h4>
-                                    </div>
                                     <form id="imageListForm" name="imageListForm" class="form-horizontal">
                                         <input type="hidden" name="image_list_article_id" id="image_list_article_id">
                                     </form>
@@ -370,7 +364,7 @@
             $('body').on('click', '.imageArticle', function() {
                 var article_id = $(this).data('id');
                 $('#image_list_article_id').val(article_id);
-                $('#imageDetailHeading').html("Images List");
+                $('#imageListHeading').html("Manage Images");
 
                 var imageTable = $('.image-table').DataTable({
                     responsive: true,

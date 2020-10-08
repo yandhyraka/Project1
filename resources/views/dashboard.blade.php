@@ -53,34 +53,44 @@
     </div>
 
     <div class="container">
-        @for ($i = 0; $i < sizeof($article); $i++) { @if($i==0 || $i==3 || $i==6) <div class="row"> @endif
+        @for ($i = 0; $i < sizeof($article); $i++) { @if($i==0 || $i%3==0) <div class="row">
+            @endif
+            @if (array_key_exists('no_article', $article[$i]))
+            <div class="col-sm"></div>
+            @else
             <div class="col-sm">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="{{ $article[$i]['image'] }}" alt="Card image cap">
+                <div class="card" style="width: 100%; height: 25rem;">
+                    <img class="card-img-top fit" src="{{ $article[$i]['image'] }}" style="height: 12.5em;">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $article[$i]['title'] }}</h5>
+                        <h5 class="card-title yellowed-font">{{ $article[$i]['title'] }}</h5>
                         <p class="card-text">{{ $article[$i]['content'] }}</p>
-                        <p class="card-text">{{ $article[$i]['date'] }}</p>
+                        <p class="card-text down">{{ $article[$i]['date'] }}</p>
                     </div>
                 </div>
             </div>
-            @if($i==2 || $i==5 || $i==9) </div> @endif
+            @endif
+            @if($i==2 || $i%3==2) </div> @endif
     @endfor
     </div>
 
-    <div class="container" style="margin-top: 1%; margin-bottom: 1%; ">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination" style="margin: 0 auto;">
-                @if (isset($previous) && !empty($previous))
-                <li class="page-item yellowed" style="margin: auto;"><a class="page-link yellowed" href="{{ $previous }}">Previous</a></li>
-                @endif
-                @foreach ($pagination as $pagination)
-                <li class="page-item yellowed" style="margin: auto;"><a class="page-link yellowed" href="{{ $pagination['url'] }}">{{ $pagination['number'] }}</a></li>
-                @endforeach
-                @if (isset($next) && !empty($next))
-                <li class="page-item yellowed" style="margin: auto;"><a class="page-link yellowed" href="{{ $next }}">Next</a></li>
-                @endif
-            </ul>
-        </nav>
+    <div class="container" style="height:1rem; margin-top: 1%; margin-bottom: 1%;">
+        <div class="row">
+            <div class="col-sm"></div>
+            <div class="col-sm">
+                <nav class="pagination" aria-label="Page navigation example" style="text-align: center;">
+                    <ul class="pagination">
+                        @if (isset($previous) && !empty($previous))
+                        <li class="page-item yellowed"><a class="page-link yellowed" href="{{ $previous }}">Previous</a></li>
+                        @endif
+                        @foreach ($pagination as $pagination)
+                        <li class="page-item yellowed"><a class="page-link yellowed" href="{{ $pagination['url'] }}">{{ $pagination['number'] }}</a></li>
+                        @endforeach
+                        @if (isset($next) && !empty($next))
+                        <li class="page-item yellowed"><a class="page-link yellowed" href="{{ $next }}">Next</a></li>
+                        @endif
+                    </ul>
+                </nav>
+            </div>
+        <div class="col-sm"></div>
     </div>
 </x-app-layout>
