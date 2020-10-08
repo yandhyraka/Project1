@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -25,8 +25,8 @@
                 @endif
             </div>
             <div style="width:20%; margin: 1% 0 0 60%;">
-                <form class="form-control" action="POST">
-                    <input style="width:70%" type="text">
+                <form class="form-control" method="GET" action="{{ route('search.index') }}">
+                    <input style="width:70%" name="search" type="text">
                     <button type="submit">Search</button>
                 </form>
             </div>

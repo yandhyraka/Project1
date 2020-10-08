@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleAjaxController;
 use App\Http\Controllers\ImageAjaxController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +26,9 @@ Route::get('/', [DashboardController::class, 'index']);
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('admins', [ArticleAjaxController::class, 'index'])->name('admins');
-Route::get('dashboard/{id}', [DashboardController::class, 'show']);
+Route::get('dashboard/{id}', [DashboardController::class, 'show'])->name('dashboards');
 Route::get('article/{id}', [ArticleAjaxController::class, 'show']);
 
 Route::resource('admin',ArticleAjaxController::class);
 Route::resource('image',ImageAjaxController::class);
+Route::resource('search', SearchController::class);
