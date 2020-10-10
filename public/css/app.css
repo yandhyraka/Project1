@@ -57,7 +57,7 @@ a.footer {
     border-color: #191919;
 }
 
-th, tr, td,a.paginate_button {
+th, tr, td, a.paginate_button {
     border-color: #191919;
     background-color: #ffd143;
     color: #66000e;
@@ -72,5 +72,111 @@ th, tr, td,a.paginate_button {
 .page-item.active .page-link {
     border-color: #191919;
     background-color: #ffd143;
-    color: #66000e  !important;
+    color: #66000e !important;
+}
+
+/* JETSTREAM */
+
+.antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.font-sans {
+    font-family: Nunito, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.form-input {
+    width: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.w-16 {
+    width: 4rem;
+}
+
+.max-w-md {
+    max-width: 28rem;
+}
+
+.h-16 {
+    height: 4rem;
+}
+
+.pt-0 {
+    padding-top: 0;
+}
+
+.pt-6 {
+    padding-top: 1.5rem;
+    width: 50%;
+    margin: 10rem auto;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.mt-6 {
+    margin-top: 1.5rem;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.text-gray-700, .text-gray-600 {
+    color: #ffd143;
+}
+
+.bg-gray-100 {
+    --bg-opacity: 1;
+    background-color: #191919;
+    height: 25%;
+}
+
+.bg-gray-800 {
+    background-color: #ffd143;
+    color: #66000e !important;
+    margin-left: 1%;
+    border: 0 !important;
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
