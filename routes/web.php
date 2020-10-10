@@ -27,8 +27,10 @@ Route::get('/', [DashboardController::class, 'index']);
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('admins', [ArticleAjaxController::class, 'index'])->name('admins');
 Route::get('dashboard/{id}', [DashboardController::class, 'show'])->name('dashboards');
-Route::get('article/{id}', [ArticleAjaxController::class, 'show']);
+Route::get('article/{id}', [ArticleAjaxController::class, 'show'])->name('articles');
+Route::get('about', function () {return view('about');})->name('about');
+Route::get('contact', function () {return view('contact');})->name('contact');
 
-Route::resource('admin',ArticleAjaxController::class);
-Route::resource('image',ImageAjaxController::class);
+Route::resource('admin', ArticleAjaxController::class);
+Route::resource('image', ImageAjaxController::class);
 Route::resource('search', SearchController::class);

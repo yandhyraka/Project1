@@ -128,8 +128,13 @@ class ArticleAjaxController extends Controller
     public function show($id)
     {
         $data = Article::where('id', $id)->with('Image')->get();
-        if ($data->toArray()!==null && !empty($data->toArray())) {
-            $to_return['header'] = url('/images/' . $data[0]->image[0]->url);
+        if ($data->toArray() !== null && !empty($data->toArray())) {
+            if (isset($data[0]->image[0]->url) && !empty($data[0]->image[0]->url)) {
+                $to_return['header'] = url('/images/' . $data[0]->image[0]->url);
+            } else {
+                $to_return['header'] = url('/images/no-image.png');
+            }
+
             $to_return['date'] = date('d F Y H:i:s', strtotime($data[0]->published_at));
             $to_return['title'] = $data[0]->title;
             $to_return['content'] = $data[0]->content;

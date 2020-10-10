@@ -19,6 +19,7 @@ class DashboardController extends Controller
                 $temp['date'] = date('d F Y H:i:s', strtotime($data_top->published_at));
                 $temp['title'] = $data_top->title;
                 $temp['content'] = substr($data_top->content, 0, 100) . '...';
+                $temp['url'] = route('articles', $data_top->id);
 
                 if (isset($data_top->image[0]->url) && !empty($data_top->image[0]->url)) {
                     $temp['image'] = url('/images/' . $data_top->image[0]->url);
@@ -36,6 +37,7 @@ class DashboardController extends Controller
                     $temp['date'] = '';
                     $temp['title'] = '';
                     $temp['content'] = '';
+                    $temp['url'] = '';
 
                     $to_return['header'][] = $temp;
                 }
@@ -47,6 +49,7 @@ class DashboardController extends Controller
                 $temp['date'] = '';
                 $temp['title'] = '';
                 $temp['content'] = '';
+                $temp['url'] = '';
 
                 $to_return['header'][] = $temp;
             }
@@ -60,6 +63,7 @@ class DashboardController extends Controller
                 $temp['date'] = date('d F Y H:i:s', strtotime($data_card->published_at));
                 $temp['title'] = $data_card->title;
                 $temp['content'] = substr($data_card->content, 0, 100) . '...';
+                $temp['url'] = route('articles', $data_card->id);
 
                 if (isset($data_card->image[0]->url) && !empty($data_card->image[0]->url)) {
                     $temp['image'] = url('/images/' . $data_card->image[0]->url);
@@ -102,7 +106,7 @@ class DashboardController extends Controller
         if ($total_page > 1) {
             $to_return['next'] = route('dashboards', 2);
         }
-        return view('Dashboard', $to_return);
+        return view('dashboard', $to_return);
     }
 
     public function show($id)
@@ -115,6 +119,7 @@ class DashboardController extends Controller
                 $temp['date'] = date('d F Y H:i:s', strtotime($data_top->published_at));
                 $temp['title'] = $data_top->title;
                 $temp['content'] = substr($data_top->content, 0, 100) . '...';
+                $temp['url'] = route('articles', $data_top->id);
 
                 if (isset($data_top->image[0]->url) && !empty($data_top->image[0]->url)) {
                     $temp['image'] = url('/images/' . $data_top->image[0]->url);
@@ -157,6 +162,7 @@ class DashboardController extends Controller
                 $temp['date'] = date('d F Y H:i:s', strtotime($data_card->published_at));
                 $temp['title'] = $data_card->title;
                 $temp['content'] = substr($data_card->content, 0, 100) . '...';
+                $temp['url'] = route('articles', $data_card->id);
 
                 if (isset($data_card->image[0]->url) && !empty($data_card->image[0]->url)) {
                     $temp['image'] = url('/images/' . $data_card->image[0]->url);

@@ -21,6 +21,7 @@ class SearchController extends Controller
                     $temp['date'] = date('d F Y H:i:s', strtotime($data_card->published_at));
                     $temp['title'] = $data_card->title;
                     $temp['content'] = substr($data_card->content, 0, 100) . '...';
+                    $temp['url'] = route('articles', $data_card->id);
 
                     if (isset($data_card->image[0]->url) && !empty($data_card->image[0]->url)) {
                         $temp['image'] = url('/images/' . $data_card->image[0]->url);
